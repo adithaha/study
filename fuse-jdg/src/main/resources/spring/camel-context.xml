@@ -8,7 +8,7 @@
         <dataFormats>
             <xmljson id="xmljson"/>
         </dataFormats>
-        <restConfiguration apiContextPath="api-docs"
+        <restConfiguration apiContextPath="api-docs" bindingMode="json"
             component="servlet" contextPath="/camel" enableCORS="true">
             <dataFormatProperty key="prettyPrint" value="true"/>
             <apiProperty key="cors" value="true"/>
@@ -51,7 +51,7 @@
             </setHeader>
             <to id="_to6" uri="infinispan://{{jdg.hosts}}"/>
             <setBody id="_setBody4">
-                <simple>${header.CamelInfinispanOperationResult}</simple>
+                <simple>{ "key" : "${header.key}", "message": "${header.CamelInfinispanOperationResult}"</simple>
             </setBody>
         </route>
     </camelContext>
