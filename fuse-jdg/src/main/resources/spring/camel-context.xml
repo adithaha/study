@@ -5,6 +5,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://camel.apache.org/schema/cxf     http://camel.apache.org/schema/cxf/camel-cxf.xsd">
     <!-- Camel Routes -->
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <dataFormats>
+            <xmljson id="xmljson"/>
+        </dataFormats>
+        <restConfiguration apiContextPath="api-docs"
+            component="servlet" contextPath="/camel" enableCORS="true">
+            <dataFormatProperty key="prettyPrint" value="true"/>
+            <apiProperty key="cors" value="true"/>
+            <apiProperty key="api.version" value="1.0.0"/>
+            <apiProperty key="api.title" value="Red Hat Fuse - REST"/>
+            <apiProperty key="api.description" value="Red Hat Fuse - REST"/>
+            <apiProperty key="api.contact.name" value="Red Hat"/>
+        </restConfiguration>
         <rest id="rest-f9a3c9e5-81ce-430d-8395-d9fcfce45265" path="/jdg">
             <get id="get-e680a028-da23-424e-9388-ab354e908151" uri="/put/{key}/{value}">
                 <to uri="direct:put"/>
@@ -22,10 +34,11 @@
                 <constant>${header.key}</constant>
             </setHeader>
             <setHeader headerName="CamelInfinispanValue" id="_setHeader3">
-                <simple>${value}</simple>
+                <simple>${header.value}</simple>
             </setHeader>
+            <to uri="infinispan://{{jdg.hosts}}"/>
             <setBody id="_setBody1">
-                <simple>Data with key '${header.key}' is stored successfully</simple>
+                <simple>{ "message": "Data with key '${header.key}' is stored successfully" }</simple>
             </setBody>
         </route>
         <route id="get">

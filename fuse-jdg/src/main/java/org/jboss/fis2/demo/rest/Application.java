@@ -28,7 +28,7 @@ import infinispan.org.jboss.logging.BasicLogger;
  * The Spring-boot main class.
  */
 @SpringBootApplication
-@ImportResource({"classpath:spring/amqp-context.xml", "classpath:spring/json.xml", "classpath:spring/camel-context.xml"})
+@ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
 
     public static void main(String[] args) {
@@ -39,12 +39,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
     
-    @Bean
-    ServletRegistrationBean servletRegistrationBeanCXF() {
-        ServletRegistrationBean servlet = new ServletRegistrationBean(
-            new CXFServlet(), "/cxf/*");
-        servlet.setName("CXFServlet");
-        return servlet;
-    }
-
 }
