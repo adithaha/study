@@ -36,7 +36,7 @@
             <setHeader headerName="CamelInfinispanValue" id="_setHeader3">
                 <simple>${header.value}</simple>
             </setHeader>
-            <to uri="infinispan://{{jdg.hosts}}"/>
+            <to id="_to1" uri="infinispan://{{jdg.hosts}}"/>
             <setBody id="_setBody1">
                 <simple>{ "message": "Data with key '${header.key}' is stored successfully" }</simple>
             </setBody>
