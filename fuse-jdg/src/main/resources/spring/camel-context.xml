@@ -51,7 +51,7 @@
             </setHeader>
             <to id="_to6" uri="infinispan://{{jdg.hosts}}"/>
             <setBody id="_setBody4">
-                <simple>{ "key" : "${header.key}", "message": "${header.CamelInfinispanOperationResult}"</simple>
+                <simple>{ "key" : "${header.key}", "message": "${header.CamelInfinispanOperationResult}" }</simple>
             </setBody>
         </route>
     </camelContext>
