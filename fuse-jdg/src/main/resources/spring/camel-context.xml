@@ -8,7 +8,7 @@
         <dataFormats>
             <xmljson id="xmljson"/>
         </dataFormats>
-        <restConfiguration apiContextPath="api-docs" bindingMode="json"
+        <restConfiguration apiContextPath="api-docs"
             component="servlet" contextPath="/camel" enableCORS="true">
             <dataFormatProperty key="prettyPrint" value="true"/>
             <apiProperty key="cors" value="true"/>
@@ -17,11 +17,11 @@
             <apiProperty key="api.description" value="Red Hat Fuse - REST"/>
             <apiProperty key="api.contact.name" value="Red Hat"/>
         </restConfiguration>
-        <rest id="rest-f9a3c9e5-81ce-430d-8395-d9fcfce45265" path="/jdg">
-            <get id="get-e680a028-da23-424e-9388-ab354e908151" uri="/put/{key}/{value}">
+        <rest id="rest-f9a3c9e5-81ce-430d-8395-d9fcfce45265" path="/jdg" produces="application/json">
+            <get id="get-e680a028-da23-424e-9388-ab354e908151" uri="/put/{key}/{value}" 
                 <to uri="direct:put"/>
             </get>
-            <get id="get-3cf858ee-d283-4870-9877-1d608684cd11" uri="/get/{key}">
+            <get id="get-3cf858ee-d283-4870-9877-1d608684cd11" uri="/get/{key}" produces="application/json">
                 <to uri="direct:get"/>
             </get>
         </rest>
