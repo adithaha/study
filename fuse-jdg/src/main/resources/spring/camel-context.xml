@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://camel.apache.org/schema/cxf     http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+    <!-- Camel Routes -->
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <rest id="rest-f9a3c9e5-81ce-430d-8395-d9fcfce45265" path="/jdg">
+            <get id="get-e680a028-da23-424e-9388-ab354e908151" uri="/put/{key}/{value}">
+                <to uri="direct:put"/>
+            </get>
+            <get id="get-3cf858ee-d283-4870-9877-1d608684cd11" uri="/get/{key}">
+                <to uri="direct:get"/>
+            </get>
+        </rest>
+        <route id="put">
+            <from id="_from1" uri="direct:put"/>
+            <setHeader headerName="CamelInfinispanOperation" id="_setHeader1">
+                <constant>CamelInfinispanOperationPut</constant>
+            </setHeader>
+            <setHeader headerName="CamelInfinispanKey" id="_setHeader2">
+                <constant>${header.key}</constant>
+            </setHeader>
+            <setHeader headerName="CamelInfinispanValue" id="_setHeader3">
+                <simple>${value}</simple>
+            </setHeader>
+            <setBody id="_setBody1">
+                <simple>Data with key '${header.key}' is stored successfully</simple>
+            </setBody>
+        </route>
+        <route id="get">
+            <from id="_from7" uri="direct:get"/>
+            <setHeader headerName="CamelInfinispanOperation" id="_setHeader4">
+                <constant>CamelInfinispanOperationGet</constant>
+            </setHeader>
+            <setHeader headerName="CamelInfinispanKey" id="_setHeader6">
+                <constant>${header.key}</constant>
+            </setHeader>
+            <to id="_to6" uri="infinispan://{{jdg.hosts}}"/>
+            <setBody id="_setBody4">
+                <simple>${header.CamelInfinispanOperationResult}</simple>
+            </setBody>
+        </route>
+    </camelContext>
+</beans>
